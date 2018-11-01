@@ -1,0 +1,155 @@
+Git is a version control system.
+Git is free software.
+
+https://www.liaoxuefeng.com/wiki/0013739516305929606dd18361248578c67b8067c8c017b000
+
+==================================================================
+本地仓库
+==================================================================
+    初始化一个Git仓库，使用git init命令。
+    $ git init
+
+------------------------------------------------------------------
+添加文件到Git仓库，分两步：
+
+    使用命令 git add <file> 告诉Git，把文件添加到仓库（只是加到了版本库暂存区 staged，并未提交到主分支 master），注意，可反复多次使用，添加多个文件:
+	$ git add readme.txt
+    $ git add readme1.txt readme2.txt
+	
+    使用命令 git commit -m <message> 告诉Git，把文件提交到仓库（从暂存区 staged 提交到主分支 master）:
+    $ git commit -m "wrote a readme file"
+
+------------------------------------------------------------------
+    要随时掌握工作区的状态，使用git status命令。
+	$ git status
+
+    如果git status告诉你有文件被修改过，用git diff可以查看修改内容（查看当前工作目录该文件和主分支 master 上该文件的最新版本的不同）。
+	$ git diff readme.txt
+	$ git diff HEAD -- readme.txt
+	
+	文件修改后依然可以使用 git add 和 git commit 目录添加和提交修改。
+	$ git add readme.txt
+	$ git commit -m "something comments"
+
+------------------------------------------------------------------
+    HEAD指向的版本就是当前版本，因此，Git允许我们在版本的历史之间穿梭，使用命令git reset --hard commit_id。
+	$ git reset --hard HEAD^     # 回退到上一版本
+	$ git reset --hard HEAD^^    # 回退到上上一版本
+	$ git reset --hard HEAD~2    # 回退到上上一版本，同 HEAD^^
+	$ git reset HEAD readme.txt  # 把暂存区的修改撤销掉（unstage），重新放回工作区
+	$ git reset --hard 8623c16   # 回退到版本 8623c16
+
+    穿梭前，用git log可以查看提交历史，以便确定要回退到哪个版本。
+	$ git log
+	$ git log --pretty=oneline
+	$ git reset --hard 8623c16   # 回退到版本 8623c16
+
+    要重返未来，用git reflog查看命令历史，以便确定要回到未来的哪个版本。
+	$ git reflog
+
+------------------------------------------------------------------
+    命令git checkout -- <filename> 意思就是，把 <filename> 文件在工作区的修改全部撤销
+	$ git checkout -- readme.txt   # 撤销工作区对该文件的全部修改
+	
+------------------------------------------------------------------
+	命令git rm用于删除一个文件。小提示：先手动删除文件，然后使用git rm <file>和git add<file>效果是一样的。 
+	$ git rm readme.txt
+	
+	注：如果通过文件系统删除了文件，可以使用 git checkout -- <filename> 恢复被删除的文件到最后一次提交的最新版本（切记：该版本之后的修改无法恢复！）
+	
+
+==================================================================
+远程仓库
+==================================================================
+连接远程仓库配置
+
+    1. 创建SSH Key，生成 SSH 密钥，在 gitbash 命令行窗口执行以下语句
+      $ ssh-keygen -t rsa -C "<your email>"
+	
+	2. 登陆GitHub，打开“Account settings”，“SSH Keys”页面，点“New SSH Key”，填上任意Title，在Key文本框里粘贴id_rsa.pub文件的内容。
+	
+------------------------------------------------------------------	
+远程仓库提交和更新数据
+
+	create a new repository on the command line
+
+    $ echo "# learngit" >> README.md
+    $ git init
+    $ git add README.md
+    $ git commit -m "first commit"
+    $ git remote add origin https://github.com/job2wd/learngit.git
+    $ git push -u origin master
+	
+	push an existing repository from the command line
+
+    $ git remote add origin https://github.com/job2wd/learngit.git
+    $ git push -u origin master
+	
+	从现在起，只要本地作了提交，就可以通过命令 git push origin master 把本地master分支的最新修改推送至GitHub
+	$ git push origin master
+	
+------------------------------------------------------------------	
+远程仓库提交总结
+
+	要关联一个远程库，使用命令 git remote add origin git@server-name:path/repo-name.git；如：
+	$ git remote add origin git@github.com:job2wd/learngit.git
+	或
+	$ git remote add origin https://github.com/job2wd/learngit.git
+	
+	关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+	$ git push -u origin master
+	
+	此后，每次本地提交后，只要有必要，就可以使用命令git push origin master推送最新修改；
+	$ git push origin master
+	
+------------------------------------------------------------------
+从远程仓库克隆
+
+    用命令git clone克隆一个本地库
+	$ git clone https://github.com/job2wd/gitskills.git
+	或
+	$ git clone git@github.com:job2wd/gitskills.git
+	
+------------------------------------------------------------------
+创建与合并分支
+
+    创建dev分支，然后切换到dev分支:
+	$ git checkout -b dev
+	
+	git checkout命令加上-b参数表示创建并切换，相当于以下两条命令：
+	$ git branch dev
+    $ git checkout dev
+	
+	用git branch命令查看当前分支：
+	$ git branch
+	
+	git merge命令用于合并指定分支到当前分支。把dev分支的工作成果合并到master分支上：
+	$ git merge dev
+	
+	合并完成后，就可以放心地删除dev分支了：
+	$ git branch -d dev
+	
+------------------------------------------------------------------
+Git鼓励大量使用分支
+
+    查看分支：git branch
+
+    创建分支：git branch <name>
+
+    切换分支：git checkout <name>
+
+    创建+切换分支：git checkout -b <name>
+
+    合并某分支到当前分支：git merge <name>
+
+    删除分支：git branch -d <name>
+	
+------------------------------------------------------------------	
+解决冲突
+	
+	
+	
+	
+	
+	
+	
