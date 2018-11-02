@@ -146,6 +146,45 @@ Git鼓励大量使用分支
 	
 ------------------------------------------------------------------	
 解决冲突
+	1. 创建新的分支 feature1 并切换到 feature1 分支，然后修改文件后提交，即执行如下命令：
+	  $ git checkout -b feature1
+	  
+	2. 修改文件 README.md 在文件最后一行末尾添加 ‘AND simple’
+	  $ vim README.md
+	  
+	3. 提交文件 README.md 修改到 feature1 分支
+	  $ git add README.md
+	  $ git commit -m "add 'AND simple'"
+	  
+	4. 切换到主分支 master
+	  $ git checkout master
+	  
+	5. 修改文件 README.md，将 ‘AND’ 修改为 ‘&’
+	  $ vim README.md
+	  
+	6. 提交文件 README.md 修改到 master 分支
+	  $ git add --all
+	  $ git commit -m "changed 'AND' to '&'"
+	  
+	7. 合并 feature1 分支修改到主分支 master
+	  $ git merge feature1
+	  
+	8. 此时出现了冲突，解决冲突后直接提交最新修改到主分支 master 即可
+	  $ vim README.md
+	  $ git add --all
+	  $ git commit -m "conflict fixed"
+	  
+	9. 查看分支合并情况（分支图）
+	  $ git log --graph --pretty=oneline --abbrev-commit
+	  
+	10. 删除分支 feature1
+	  $ git branch -d feature1
+	  
+	11. 查看分支
+	  $ git branch
+	  
+	解决冲突就是把Git合并失败的文件手动编辑为我们希望的内容，再提交。
+	
 	
 	
 	
